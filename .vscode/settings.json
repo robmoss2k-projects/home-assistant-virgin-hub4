@@ -1,0 +1,19 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "envFile": "${workspaceFolder}/.env",
+    "formatting.provider": "black"
+  },
+  "terminal.integrated.env.windows": {
+    "AWS_PROFILE": "tweedtalterraform",
+    "AWS_REGION": "eu-west-1"
+  },
+  "terminal.integrated.env.linux": {
+    "AWS_PROFILE": "tweedtalterraform",
+    "AWS_REGION": "eu-west-1"
+  },
+  "terminal.integrated.env.osx": {
+    "AWS_PROFILE": "tweedtalterraform",
+    "AWS_REGION": "eu-west-1"
+  }
+}
