@@ -1,0 +1,37 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    allow:
+      - dependency-type: "all"
+    assignees:
+      - "robmoss2k"
+    commit-message:
+      prefix: "chore(deps):"
+    open-pull-requests-limit: 10
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    allow:
+      - dependency-type: "all"
+    assignees:
+      - "robmoss2k"
+    commit-message:
+      prefix: "chore(deps):"
+    open-pull-requests-limit: 10
+    groups:
+      pip:
+        patterns:
+          - "*"
