@@ -1,0 +1,202 @@
+---
+repos:
+  - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
+    rev: v1.7.12.25
+    hooks:
+      - id: actionlint
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v4.0.0
+    hooks:
+      - id: add-trailing-comma
+  - repo: https://github.com/myint/autoflake
+    rev: v2.4.0
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --remove-unused-variables
+          - --remove-duplicate-keys
+          - --ignore-init-module-imports
+  - repo: https://github.com/psf/black
+    rev: 26.10.1
+    hooks:
+      - id: black
+        args:
+          - --safe
+          - --quiet
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.20.0
+    hooks:
+      - id: blacken-docs
+        additional_dependencies:
+          - black==26.10.1
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.3
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli==2.5.0
+  - repo: https://github.com/PyCQA/docformatter
+    rev: eb1df347edd128b30cd3368dddc3aa65edcfac38
+    hooks:
+      - id: docformatter
+        args:
+          - --in-place
+          - --config
+          - ./pyproject.toml
+        additional_dependencies:
+          - tomli==2.5.0
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.5.0
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - setuptools<81
+          - darglint==1.8.1
+          - flake8-aaa==0.17.2
+          - flake8-assertive==2.3.0
+          - flake8-async==26.8.1
+          - flake8-bandit==4.1.1
+          - flake8-bugbear==26.11.22
+          - flake8-builtins==3.2.0
+          - flake8-classmethod-staticmethod==2.1
+          - flake8-commas==4.0.0
+          - flake8-comments==0.1.2
+          - flake8-comprehensions==3.17.0
+          - flake8-datetime-utcnow-plugin==0.1.2
+          - flake8-deprecated==2.4.0
+          - flake8-docstring-checker==1.2
+          - flake8-docstrings==1.7.0
+          - flake8-ensure-ascii==1.0.0
+          - flake8-eradicate==1.5.0
+          - flake8-function-order==0.0.5
+          - flake8-if-statements==1.0.0
+          - flake8-implicit-str-concat==0.7.0
+          - flake8-import-order==0.19.2
+          - flake8-init-return==1.0.1
+          - flake8-logging-format==2024.24.12
+          - flake8-mutable==1.2.0
+          - flake8-newspaper-style==0.4.3
+          - flake8-pep3101==3.1.0
+          - flake8-pep585==0.1.7
+          - flake8-pie==0.16.0
+          - flake8-print==5.0.0
+          - flake8-printf-formatting==1.1.2
+          - flake8-pyi==26.5.0
+          - flake8-quotes==3.4.0
+          - flake8-raise==0.0.5
+          - flake8-secure-coding-standard==1.5.2
+          - flake8-self==0.2.2
+          - flake8-sfs==1.0.1
+          - flake8-simplify==0.31.1
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.15.1
+    hooks:
+      - id: hadolint
+  - repo: https://github.com/PyCQA/isort
+    rev: 9.0.2
+    hooks:
+      - id: isort
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.50.1
+    hooks:
+      - id: markdownlint
+      - id: markdownlint-fix
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: check-added-large-files
+        args:
+          - --maxkb=500
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-shebang-scripts-are-executable
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: fix-byte-order-marker
+      - id: name-tests-test
+        args:
+          - --pytest-test-first
+      - id: requirements-txt-fixer
+  - repo: https://github.com/digitalpulp/pre-commit-php
+    rev: 1.4.0
+    hooks:
+      - id: php-cs
+        args:
+          - --standard=PSR1 -p
+        files: \.(php)$
+      - id: php-stan
+        files: \.(php)$
+  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
+    rev: 0.0.2
+    hooks:
+      - id: stylelint
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-mock-methods
+      - id: python-no-eval
+      - id: python-no-log-warn
+      - id: rst-backticks
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.17.6
+    hooks:
+      - id: ruff
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 4.5.0
+    hooks:
+      - id: sqlfluff-lint
+      - id: sqlfluff-fix
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.16
+    hooks:
+      - id: vulture
+        args:
+          - --exclude
+          - tests
+          - --min-confidence=61
+          - .
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        stages:
+          - pre-commit
+  - repo: https://github.com/python-poetry/poetry
+    rev: 2.5.2
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+        args:
+          - --regenerate
+          - --no-cache
+      - id: poetry-install
