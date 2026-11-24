@@ -52,7 +52,6 @@ repos:
     hooks:
       - id: flake8
         additional_dependencies:
-          - setuptools<81
           - darglint==1.8.1
           - flake8-aaa==0.17.2
           - flake8-assertive==2.3.0
@@ -75,7 +74,6 @@ repos:
           - flake8-implicit-str-concat==0.7.0
           - flake8-import-order==0.19.2
           - flake8-init-return==1.0.1
-          - flake8-logging-format==2024.24.12
           - flake8-mutable==1.2.0
           - flake8-newspaper-style==0.4.3
           - flake8-pep3101==3.1.0
