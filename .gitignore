@@ -235,3 +235,14 @@ node_modules/
 .env.*
 !.env.example
 *.har
+hub4-*.cfg
+hub4-*.xml
+
+# Private commissioning records and working notes (not release content)
+/docs/architecture-review.md
+/docs/maintenance.md
+/docs/modem-mode.md
+/docs/parity.md
+/docs/portal-adversarial-review.md
+/docs/release.md
+/docs/verification.md

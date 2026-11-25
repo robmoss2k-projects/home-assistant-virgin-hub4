@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Virgin Media Hub 4",
+        "description": "Enter the local Hub management address and its settings password, not your Wi-Fi password.",
+        "data": {"host": "Hub address", "password": "Hub settings password"}
+      },
+      "reauth_confirm": {
+        "title": "Reconnect the Hub 4",
+        "data": {"host": "Hub address", "password": "Hub settings password"}
+      },
+      "reconfigure": {
+        "title": "Change the Hub address or password",
+        "data": {"host": "Hub address", "password": "Hub settings password"}
+      }
+    },
+    "error": {
+      "invalid_host": "Enter the Hub's private IPv4 management address.",
+      "cannot_connect": "Could not read the Hub's status. Check the address and connection.",
+      "invalid_auth": "The Hub did not accept the settings password.",
+      "session_busy": "Someone is signed into the Hub portal. Log out there and try again.",
+      "unsupported": "This Hub did not return the expected local admin login or device identity."
+    },
+    "abort": {
+      "different_hub": "This address belongs to a different Hub. Add it as a new device.",
+      "already_configured": "This Hub is already configured.",
+      "reauth_successful": "The Hub was reconnected.",
+      "reconfigure_successful": "The Hub configuration was updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hub polling and management",
+        "description": "Enable management only when you are ready to send setting changes and start diagnostics. The experimental maintenance switch also requires management.",
+        "data": {
+          "extended": "Collect router configuration and extended diagnostics",
+          "interval_minutes": "Minutes between polls",
+          "enable_management": "Allow changes and active diagnostics on this Hub",
+          "enable_experimental_maintenance": "Enable unverified configuration backup, restore, reboot and reset actions"
+        }
+      }
+    }
+  }
+}
