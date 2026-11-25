@@ -1,0 +1,21 @@
+name: Hub integration tests
+on:
+  workflow_call:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['[0-9]*', 'v[0-9]*']
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m ruff check custom_components tests tools
+      - run: python -m ruff format --check custom_components tests tools
+      - run: python -m pytest -q

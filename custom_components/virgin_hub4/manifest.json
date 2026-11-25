@@ -1,0 +1,13 @@
+{
+  "domain": "virgin_hub4",
+  "name": "Virgin Media Hub 4",
+  "categories": ["computers_network.routers_network"],
+  "codeowners": ["@robmoss2k"],
+  "config_flow": true,
+  "documentation": "https://github.com/robmoss2k-projects/home-assistant-virgin-hub4",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/robmoss2k-projects/home-assistant-virgin-hub4/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

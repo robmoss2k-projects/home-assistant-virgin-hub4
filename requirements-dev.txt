@@ -1,0 +1,6 @@
+aiohttp>=3.12,<4
+cryptography>=44
+homeassistant==2026.11.2
+pytest>=8
+pytest-asyncio>=1
+ruff>=0.11

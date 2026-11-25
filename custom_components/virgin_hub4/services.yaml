@@ -1,0 +1,844 @@
+get_snapshot:
+  name: Read cached Hub details
+  description: Read the latest Hub snapshot without polling or changing the Hub. This action requires a Home Assistant administrator.
+  fields:
+    config_entry_id:
+      name: Hub
+      description: Required only when more than one Hub is configured.
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    group:
+      name: Detail group
+      description: Optional group name, for example channels, events, clients, device, radio, or dhcp_server.
+      selector:
+        text:
+set_light_ring:
+  name: Set light ring
+  description: Set the Hub's light ring to Auto or to a manual brightness. Reads back the result.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    mode:
+      name: Mode
+      required: true
+      selector:
+        select:
+          options: [auto, manual]
+    brightness:
+      name: Manual brightness
+      description: Required in Manual mode; omit in Auto mode.
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+set_upnp:
+  name: Set UPnP
+  description: Enable or disable UPnP on the Hub.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    enabled:
+      name: Enabled
+      required: true
+      selector:
+        boolean:
+set_wan_mtu:
+  name: Set WAN MTU
+  description: Set the Hub's WAN maximum transmission unit.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    value:
+      name: MTU
+      required: true
+      selector:
+        number:
+          min: 1280
+          max: 1500
+          step: 1
+          mode: box
+set_push_button_wps:
+  name: Set push-button WPS
+  description: Enable or disable push-button WPS without opening a registration window.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    enabled:
+      name: Enabled
+      required: true
+      selector:
+        boolean:
+start_wps_registration:
+  name: Start WPS registration
+  description: Open one push-button pairing window, wait for a fresh result, and clear a failed attempt.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+set_guest_wifi:
+  name: Set guest Wi-Fi
+  description: >-
+    Change only the fields supplied, then check the settings and passphrases about once a
+    second for up to two minutes in the same session. Omit the passphrase to preserve it.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    enabled:
+      name: Enabled
+      selector:
+        boolean:
+    ssid:
+      name: Network name
+      selector:
+        text:
+    passphrase:
+      name: New guest Wi-Fi passphrase
+      selector: &wifi_key
+        text:
+          type: password
+    broadcast:
+      name: Broadcast network name
+      selector:
+        boolean:
+    security:
+      name: Security mode
+      selector:
+        select:
+          options:
+            - label: None
+              value: "0"
+            - label: WPA2-Personal
+              value: "4"
+            - label: WPA-WPA2-Personal
+              value: "5"
+set_firewall:
+  name: Set firewall settings
+  description: Change a family available in the Hub portal. Its firewall must be enabled to change dependent options. Other settings are preserved.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    v4_enabled:
+      name: Enable IPv4 firewall
+      selector:
+        boolean:
+    v4_block_fragments:
+      name: Block IPv4 fragmented packets
+      selector:
+        boolean:
+    v4_detect_port_scan:
+      name: Detect IPv4 port scans
+      selector:
+        boolean:
+    v4_detect_ip_flood:
+      name: Detect IPv4 floods
+      selector:
+        boolean:
+    v6_enabled:
+      name: Enable IPv6 firewall
+      selector:
+        boolean:
+    v6_block_fragments:
+      name: Block IPv6 fragmented packets
+      selector:
+        boolean:
+    v6_detect_port_scan:
+      name: Detect IPv6 port scans
+      selector:
+        boolean:
+    v6_detect_ip_flood:
+      name: Detect IPv6 floods
+      selector:
+        boolean:
+set_dmz:
+  name: Set DMZ
+  description: Enable or disable the Hub's DMZ and optionally set its LAN IPv4 destination.
+  fields:
+    config_entry_id:
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    enabled:
+      name: Enabled
+      required: true
+      selector:
+        boolean:
+    target:
+      name: LAN IPv4 destination
+      selector:
+        text:
+set_wifi_radio:
+  name: Set Wi-Fi radio
+  description: Change selected radio settings while preserving omitted settings on both bands.
+  fields:
+    config_entry_id: &hub
+      name: Hub
+      selector:
+        config_entry:
+          integration: virgin_hub4
+    optimisation:
+      name: Smart Wi-Fi channel optimisation
+      selector:
+        boolean:
+    confirm_dfs:
+      name: Acknowledge the manual DFS channel warning
+      selector:
+        boolean:
+    24g_enabled:
+      name: 2.4 GHz enabled
+      selector:
+        boolean:
+    24g_automatic:
+      name: 2.4 GHz automatic channel selection
+      selector:
+        boolean:
+    24g_channel:
+      name: 2.4 GHz manual channel
+      selector:
+        number:
+          min: 1
+          max: 14
+          mode: box
+    24g_standard:
+      name: 2.4 GHz standards
+      selector:
+        select:
+          options: ["n", "g,n", "b,g,n"]
+    24g_width:
+      name: 2.4 GHz channel width
+      selector:
+        select:
+          options:
+            - {label: "20 MHz", value: "20MHz"}
+            - {label: "20/40 MHz", value: "40MHz"}
+    5g_enabled:
+      name: 5 GHz enabled
+      selector:
+        boolean:
+    5g_automatic:
+      name: 5 GHz automatic channel selection
+      selector:
+        boolean:
+    5g_channel:
+      name: 5 GHz manual channel
+      selector:
+        number:
+          min: 32
+          max: 177
+          mode: box
+    5g_standard:
+      name: 5 GHz standards
+      selector:
+        select:
+          options: ["ac", "n,ac", "a,n,ac"]
+    5g_width:
+      name: 5 GHz channel width
+      selector:
+        select:
+          options:
+            - {label: "20 MHz", value: "20MHz"}
+            - {label: "20/40 MHz", value: "40MHz"}
+            - {label: "20/40/80 MHz", value: "80MHz"}
+port_forwarding_rule:
+  name: Manage a port-forwarding rule
+  description: List current rules or add, enable, disable, or delete a manual forwarding rule.
+  fields:
+    config_entry_id: *hub
+    operation: &rule_operation
+      name: Operation
+      required: true
+      selector:
+        select:
+          options: [list, add, set_enabled, delete, apply]
+    edits: &row_edits
+      name: Row edits
+      description: For apply only. Supply a list of objects with the row identifier and either enabled or delete.
+      selector:
+        object:
+          multiple: true
+    rule_id: &rule_id
+      name: Rule ID
+      description: Use the ID from the list response for set_enabled or delete.
+      selector:
+        text:
+    enabled: &enabled
+      name: Enabled
+      selector:
+        boolean:
+    protocol: &protocol
+      name: Protocol
+      selector:
+        select:
+          options: [TCP, UDP, BOTH]
+    target:
+      name: Hub LAN IPv4 destination
+      selector:
+        text:
+    local_start:
+      name: First internal port
+      selector: &port
+        number:
+          min: 1
+          max: 65535
+          mode: box
+    local_end:
+      name: Last internal port
+      selector: *port
+    external_start:
+      name: First external port
+      selector: *port
+    external_end:
+      name: Last external port
+      selector: *port
+port_triggering_rule:
+  name: Manage a port-triggering rule
+  description: List current rules or add, enable, disable, or delete a triggering rule.
+  fields:
+    config_entry_id: *hub
+    operation: *rule_operation
+    edits: *row_edits
+    rule_id: *rule_id
+    enabled: *enabled
+    protocol: *protocol
+    trigger_start:
+      name: First trigger port
+      selector: *port
+    trigger_end:
+      name: Last trigger port
+      selector: *port
+    forward_start:
+      name: First forwarded port
+      selector: *port
+    forward_end:
+      name: Last forwarded port
+      selector: *port
+ip_filter_rule:
+  name: Manage an IP and port filtering rule
+  description: List, add, enable, disable, or delete an IPv4 or IPv6 filtering rule. Does not change forwarding, triggering, or the shared filtering schedule.
+  fields:
+    config_entry_id: *hub
+    family:
+      name: Address family
+      required: true
+      selector:
+        select:
+          options:
+            - {label: IPv4, value: ipv4}
+            - {label: IPv6, value: ipv6}
+            - {label: Both (Apply only), value: both}
+    operation: *rule_operation
+    edits: *row_edits
+    rule_id: *rule_id
+    enabled: *enabled
+    protocol:
+      name: Protocol
+      selector:
+        select:
+          options: [All, TCP, UDP, BOTH, ICMPv6, GRE, ESP, AH]
+    source:
+      name: Source address
+      description: Enter any, a single address, an IPv4 start-end range, or an IPv6 prefix.
+      selector:
+        text:
+    destination:
+      name: Destination address
+      description: Enter any, a single address, an IPv4 start-end range, or an IPv6 prefix.
+      selector:
+        text:
+    source_port_start:
+      name: First source port
+      selector: &filter_port
+        number:
+          min: 1
+          max: 65535
+          mode: box
+    source_port_end:
+      name: Last source port
+      selector: *filter_port
+    destination_port_start:
+      name: First destination port
+      selector: *filter_port
+    destination_port_end:
+      name: Last destination port
+      selector: *filter_port
+    direction:
+      name: IPv6 traffic direction
+      selector:
+        select:
+          options: [incoming, outgoing]
+    policy:
+      name: IPv6 traffic policy
+      selector:
+        select:
+          options: [Allow, Deny]
+set_mac_filter_schedule:
+  name: Set the MAC filter schedule
+  description: Replace the shared schedule for all MAC filter rules.
+  fields: &filter_schedule_fields
+    config_entry_id: *hub
+    mode:
+      name: When rules apply
+      required: true
+      selector:
+        select:
+          options:
+            - label: Always
+              value: always
+            - label: Same hours every day
+              value: daily
+            - label: Different hours by day
+              value: weekly
+    periods:
+      name: Hour ranges on the Hub's clock
+      description: Use a list of start and end hours from 0 to 24; add day (mon to sun) for each weekly range. End is exclusive. Omit for Always.
+      selector:
+        object:
+          multiple: true
+          fields:
+            start:
+              label: Start hour
+              required: true
+              selector: &schedule_hour
+                number:
+                  min: 0
+                  max: 24
+                  step: 1
+                  mode: box
+            end:
+              label: End hour
+              required: true
+              selector: *schedule_hour
+            day:
+              label: Day (weekly only)
+              selector:
+                select:
+                  options:
+                    - {label: Monday, value: mon}
+                    - {label: Tuesday, value: tue}
+                    - {label: Wednesday, value: wed}
+                    - {label: Thursday, value: thu}
+                    - {label: Friday, value: fri}
+                    - {label: Saturday, value: sat}
+                    - {label: Sunday, value: sun}
+set_ip_filter_schedule:
+  name: Set the IP and port filter schedule
+  description: Replace the shared schedule for IP and port filtering rules, not port forwarding or triggering.
+  fields: *filter_schedule_fields
+export_hub_configuration:
+  name: Export the Hub configuration
+  description: Experimental. Save the Hub's configuration to a private directory on the Home Assistant host. No credentials or file contents are returned.
+  fields:
+    config_entry_id: *hub
+prepare_hub_maintenance:
+  name: Prepare Hub maintenance
+  description: Experimental. Prepare a one-use plan without submitting the operation. Factory reset requires a Hub-confirmed local session.
+  fields:
+    config_entry_id: *hub
+    operation:
+      name: Operation
+      required: true
+      selector:
+        select:
+          options:
+            - {label: Reboot the Hub, value: reboot}
+            - {label: Restore a saved configuration, value: restore}
+            - {label: Erase settings and restore factory defaults, value: factory_reset}
+    filename:
+      name: Local configuration filename
+      description: For restore only. Use the filename in this Hub's private configuration directory.
+      selector:
+        text:
+apply_hub_maintenance:
+  name: Apply prepared Hub maintenance
+  description: Experimental. Confirm local recovery before submitting a prepared reboot, restore, or factory reset. Verify the actual outcome separately.
+  fields:
+    config_entry_id: *hub
+    plan_id:
+      name: One-use maintenance plan ID
+      required: true
+      selector:
+        text:
+    confirm_local_recovery:
+      name: Someone at the Hub can recover access
+      required: true
+      selector:
+        boolean:
+get_operating_mode:
+  name: Verify the Hub operating mode
+  description: Read the current mode of the configured Hub from its current management address.
+  fields:
+    config_entry_id: *hub
+prepare_operating_mode_change:
+  name: Prepare a Hub operating-mode change
+  description: Read the current mode and prepare a one-use plan valid for 10 minutes. No settings are changed.
+  fields:
+    config_entry_id: *hub
+    mode:
+      name: Destination mode
+      required: true
+      selector:
+        select:
+          options:
+            - {label: Modem, value: modem}
+            - {label: Router, value: router}
+    router_management_address:
+      name: Expected router management address
+      description: Only for a return to router mode when the previous address was not 192.168.0.1.
+      selector:
+        text:
+apply_operating_mode_change:
+  name: Apply a prepared Hub operating-mode change
+  description: May take the home offline. Use only while someone is at the Hub and can recover locally. Verify the result separately.
+  fields:
+    config_entry_id: *hub
+    plan_id:
+      name: One-use plan ID
+      required: true
+      selector:
+        text:
+    confirm_local_recovery:
+      name: Someone at the Hub can recover access
+      required: true
+      selector:
+        boolean:
+set_connected_device_name:
+  name: Name a connected device on the Hub
+  description: Set or clear the Hub's saved friendly name for one connected device. This does not rename it in Home Assistant.
+  fields:
+    config_entry_id: *hub
+    mac:
+      name: Device MAC address
+      required: true
+      selector:
+        text:
+    label:
+      name: Device name
+      description: Up to 30 characters. Use an empty string to clear the custom name.
+      required: true
+      selector:
+        text:
+get_portal_language:
+  name: Read the Hub portal language
+  description: Read the current signed-in portal language and the firmware's list of available language codes.
+  fields:
+    config_entry_id: *hub
+set_portal_language:
+  name: Set the Hub portal language
+  description: Set the language of the signed-in Hub portal, not the language of Home Assistant.
+  fields:
+    config_entry_id: *hub
+    language:
+      name: Language code
+      description: Use one of the codes returned by Read the Hub portal language.
+      required: true
+      selector:
+        text:
+run_ping:
+  name: Ping from the Hub
+  description: Send a short ping to one address and wait for a fresh result reported by the Hub.
+  fields:
+    config_entry_id: *hub
+    target: &diagnostic_target
+      name: Target address or host name
+      required: true
+      selector:
+        text:
+    count:
+      name: Number of pings
+      default: 4
+      selector:
+        number:
+          min: 1
+          max: 32
+          mode: box
+    packet_size:
+      name: Packet size in bytes
+      default: 64
+      selector:
+        number:
+          min: 64
+          max: 1518
+          mode: box
+    timeout_seconds: &diagnostic_timeout
+      name: Maximum wait for a fresh result
+      selector:
+        number:
+          min: 5
+          max: 120
+          unit_of_measurement: s
+          mode: box
+run_traceroute:
+  name: Run a traceroute from the Hub
+  description: Trace the route to one destination and wait for the Hub to report fresh results.
+  fields:
+    config_entry_id: *hub
+    target: *diagnostic_target
+    timeout_seconds: *diagnostic_timeout
+    max_hops:
+      name: Maximum hops
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 255
+          mode: box
+    base_port:
+      name: Base UDP port
+      default: 33434
+      selector:
+        number:
+          min: 1
+          max: 65535
+          mode: box
+get_network_test_status:
+  name: Read the last Hub network test
+  description: Read the Hub's current ping or traceroute record. It may belong to an earlier run.
+  fields:
+    config_entry_id: *hub
+    test:
+      name: Diagnostic type
+      required: true
+      selector:
+        select:
+          options: [ping, traceroute]
+cancel_network_diagnostic:
+  name: Cancel the Hub network diagnostic
+  description: Request cancellation of the run started by this Home Assistant entry. Does not stop a test started in the router portal.
+  fields:
+    config_entry_id: *hub
+run_diagnostics_wizard:
+  name: Run the Hub diagnostics wizard
+  description: Summarise WAN, broadband ping, temperature, telephone, Wi-Fi, and Ethernet checks. The Ethernet link exercise is optional and briefly disconnects wired devices.
+  fields:
+    config_entry_id: *hub
+    exercise_ethernet:
+      name: Also exercise the physical Ethernet links
+      default: false
+      selector:
+        boolean:
+    confirm_link_interruption:
+      name: Confirm that interrupting Ethernet is acceptable
+      default: false
+      selector:
+        boolean:
+set_dhcp_ipv4:
+  name: Change IPv4 DHCP settings
+  description: Update the server, IPv4 pool, or lease time. A subnet change, where the Hub permits it, can change the Hub's own address.
+  fields:
+    config_entry_id: *hub
+    enabled: *enabled
+    pool_start:
+      name: First address in the IPv4 pool
+      selector:
+        text:
+    pool_end:
+      name: Last address in the IPv4 pool
+      description: Specify the last address or the address count, not both.
+      selector:
+        text:
+    address_count:
+      name: Number of addresses in the pool
+      selector:
+        number:
+          min: 1
+          max: 256
+          mode: box
+    lease_seconds:
+      name: Lease time
+      selector:
+        number:
+          min: 120
+          max: 604800
+          unit_of_measurement: s
+          mode: box
+    subnet_mask:
+      name: LAN subnet mask
+      description: Only supported when the portal exposes the mask field.
+      selector:
+        text:
+    confirm_network_change:
+      name: Confirm possible network disruption
+      description: Required for a subnet change, disabling DHCP, or excluding current clients from the pool.
+      selector:
+        boolean:
+set_dhcp_ipv6:
+  name: Change IPv6 DHCP mode
+  description: Set stateful or stateless autoconfiguration when the Hub exposes IPv6 DHCP. Its other IPv6 DHCP settings are read-only.
+  fields:
+    config_entry_id: *hub
+    mode:
+      name: IPv6 autoconfiguration mode
+      required: true
+      selector:
+        select:
+          options:
+            - {label: Stateful, value: stateful}
+            - {label: Stateless, value: stateless}
+dhcp_reservation:
+  name: Manage a DHCP address reservation
+  description: List, add, or delete IPv4 reservations. Match both the address and MAC before deleting.
+  fields:
+    config_entry_id: *hub
+    operation:
+      name: Operation
+      required: true
+      selector:
+        select:
+          options: [list, add, delete, apply]
+    edits: *row_edits
+    mac:
+      name: Device MAC address
+      selector:
+        text:
+    address:
+      name: Reserved IPv4 address
+      selector:
+        text:
+get_guest_wifi_schedule:
+  name: Read the guest Wi-Fi schedule
+  description: Read the expiry recorded in the Hub's guest wizard. Does not verify that its radio turns off on time.
+  fields:
+    config_entry_id: *hub
+set_guest_wifi_schedule:
+  name: Set the guest Wi-Fi schedule
+  description: Record a dated expiry at the Hub or clear it. The wizard must enable guest Wi-Fi to apply a change.
+  fields:
+    config_entry_id: *hub
+    mode:
+      name: Schedule mode
+      required: true
+      selector:
+        select:
+          options:
+            - {label: No expiry, value: always}
+            - {label: Until a specific time, value: until}
+    expires_at:
+      name: Expiry date and time
+      description: Use YYYY-MM-DD HH:MM on the Hub's local clock, on a whole or half hour. Omit for No expiry.
+      selector:
+        text:
+    enable_if_off:
+      name: Allow enabling guest Wi-Fi if it is off
+      default: false
+      selector:
+        boolean:
+    ssid:
+      name: Optional new guest network name
+      selector:
+        text:
+    passphrase:
+      name: Optional new guest Wi-Fi passphrase
+      selector: *wifi_key
+set_wifi_security:
+  name: Change main Wi-Fi network settings
+  description: Change main Wi-Fi settings. Omit either key to preserve it. Matching names share the 2.4 GHz security, broadcast and passphrase.
+  fields:
+    config_entry_id: *hub
+    band24_ssid:
+      name: 2.4 GHz network name
+      selector: &wifi_ssid
+        text:
+    band50_ssid:
+      name: 5 GHz network name
+      selector: *wifi_ssid
+    band24_passphrase:
+      name: New 2.4 GHz or shared Wi-Fi passphrase
+      selector: *wifi_key
+    band50_passphrase:
+      name: New 5 GHz Wi-Fi passphrase
+      selector: *wifi_key
+    band24_broadcast:
+      name: Broadcast the 2.4 GHz network name
+      selector: &wifi_broadcast
+        boolean:
+    band50_broadcast:
+      name: Broadcast the 5 GHz network name
+      selector: *wifi_broadcast
+    band24_security:
+      name: 2.4 GHz security mode
+      selector: &wifi_security_mode
+        select:
+          options:
+            - {label: None, value: "0"}
+            - {label: WPA2-Personal, value: "4"}
+            - {label: WPA-WPA2-Personal, value: "5"}
+    band50_security:
+      name: 5 GHz security mode
+      selector: *wifi_security_mode
+    policy:
+      name: Wi-Fi MAC access policy
+      selector:
+        select:
+          options:
+            - {label: Disabled, value: disabled}
+            - {label: Allow only listed devices, value: allow_list}
+            - {label: Deny listed devices, value: deny_list}
+wifi_mac_access_rule:
+  name: Manage the wireless MAC access list
+  description: List devices, or add or delete a device on one or both Wi-Fi bands. This is separate from the scheduled MAC filter.
+  fields:
+    config_entry_id: *hub
+    operation:
+      name: Operation
+      required: true
+      selector:
+        select:
+          options: [list, add, delete, apply]
+    edits: *row_edits
+    band:
+      name: Wi-Fi band
+      selector:
+        select:
+          options:
+            - {label: 2.4 GHz, value: band24}
+            - {label: 5 GHz, value: band50}
+            - {label: Both bands, value: both}
+    mac:
+      name: Device MAC address
+      selector:
+        text:
+    name:
+      name: Device label
+      description: Required when adding a device.
+      selector:
+        text:
+mac_filter_rule:
+  name: Manage a scheduled MAC filter rule
+  description: List current rules or add, enable, disable, or delete a MAC filtering rule.
+  fields:
+    config_entry_id: *hub
+    operation: *rule_operation
+    edits: *row_edits
+    mac:
+      name: Device MAC address
+      selector:
+        text:
+    name:
+      name: Device label
+      description: Required for add.
+      selector:
+        text:
+    enabled: *enabled
